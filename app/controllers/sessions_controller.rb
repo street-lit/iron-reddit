@@ -14,13 +14,13 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    session[:logged_in_user] = nil
+    session[:logged_in_users_id] = nil
     redirect_to root_path
   end
 
   private
 
   def set_user_session(user)
-    session[:logged_in_user] = user.id
+    session[:logged_in_users_id] = user.id
   end
 end
