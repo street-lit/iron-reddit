@@ -10,5 +10,9 @@
 
 <%= yield %>
 
+<footer>
+  <%= params.inspect if Rails.env.development? %>
+</footer>
+
 </body>
 </html>

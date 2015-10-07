@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   resources :links
   resources :users
 
+  root "links#index"
 end
