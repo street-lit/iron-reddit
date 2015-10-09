@@ -4,7 +4,7 @@ class LinksController < ApplicationController
   # GET /links
   # GET /links.json
   def index
-    @links = Link.all
+    @links = Link.all.order(num_votes: :desc).order(updated_at: :desc)
   end
 
   # GET /links/1
@@ -14,18 +14,22 @@ class LinksController < ApplicationController
 
   # GET /links/new
   def new
+    authenticate_user
     @link = Link.new
   end
 
   # GET /links/1/edit
   def edit
+    unless current_user.id == @link.user_id
+      redirect_to :back, alert: "You are not authorized to edit this link"
+    end
   end
 
   # POST /links
   # POST /links.json
   def create
     @link = Link.new(link_params)
-
+    @link.user_id = current_user.id
     respond_to do |format|
       if @link.save
         format.html { redirect_to @link, notice: 'Link was successfully created.' }
@@ -54,10 +58,14 @@ class LinksController < ApplicationController
   # DELETE /links/1
   # DELETE /links/1.json
   def destroy
-    @link.destroy
-    respond_to do |format|
-      format.html { redirect_to links_url, notice: 'Link was successfully destroyed.' }
-      format.json { head :no_content }
+    if @link.user_id != current_user.id
+      redirect_to :back, alert: "You are not AUTHORIZED to delete this link."
+    else
+      @link.destroy
+      respond_to do |format|
+        format.html { redirect_to links_url, notice: 'Link was successfully destroyed.' }
+        format.json { head :no_content }
+      end
     end
   end
 

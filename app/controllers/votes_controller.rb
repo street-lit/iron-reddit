@@ -51,6 +51,50 @@ class VotesController < ApplicationController
     end
   end
 
+  def vote_up
+    authenticate_user
+    @vote = Vote.find_or_create_by(user_id: current_user.id, link_id: params[:link_id])
+    @link = Link.find(params[:link_id])
+    if @vote.casted == true && @vote.neg_vote == true
+      @link.num_votes += 1
+      @vote.destroy
+      @link.save
+      redirect_to root_path, notice: 'Vote was taken back'
+    elsif @vote.casted == false
+      @link.num_votes += 1
+      @vote.user_id = current_user.id
+      @vote.neg_vote = false
+      @vote.casted = true
+      @vote.save
+      @link.save
+      redirect_to root_path, notice: 'Vote up was successfully cast'
+    else
+      redirect_to root_path, notice: 'Can\'t vote more than once'
+    end
+  end
+
+  def vote_down
+    authenticate_user
+    @vote = Vote.find_or_create_by(user_id: current_user.id, link_id: params[:link_id])
+    @link = Link.find(params[:link_id])
+    if @vote.casted == true && @vote.neg_vote == false
+      @link.num_votes -= 1
+      @vote.destroy
+      @link.save
+      redirect_to root_path, notice: 'Vote was taken back'
+    elsif @vote.casted == false || @vote.neg_vote == false
+      @link.num_votes -= 1
+      @vote.user_id = current_user.id
+      @vote.neg_vote = true
+      @vote.casted = true
+      @vote.save
+      @link.save
+      redirect_to root_path, notice: 'Vote down was successfully cast'
+    else
+      redirect_to root_path, notice: 'Can\'t vote more than once'
+    end
+  end
+
   # DELETE /votes/1
   # DELETE /votes/1.json
   def destroy

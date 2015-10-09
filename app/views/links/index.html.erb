@@ -1,14 +1,12 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Listing Links</h1>
 
-<table>
+<table class="table table-hover">
   <thead>
     <tr>
       <th>Url</th>
       <th>User</th>
-      <th>Num votes</th>
-      <th colspan="3"></th>
+      <th>Votes</th>
+      <th colspan="3">Actions</th>
     </tr>
   </thead>
 
@@ -16,16 +14,17 @@
     <% @links.each do |link| %>
       <tr>
         <td><%= link.url %></td>
-        <td><%= link.user %></td>
-        <td><%= link.num_votes %></td>
+        <td><%= link.user.name %></td>
+        <td class="bigger"><%= link.num_votes %><%= link_to('Vote Up', vote_up_path(link), method: :post, class: "btn btn-info space space-left") %><%= link_to('Vote Down', vote_down_path(link), method: :post, class: "btn btn-warning space") %></td>
         <td><%= link_to 'Show', link %></td>
         <td><%= link_to 'Edit', edit_link_path(link) %></td>
         <td><%= link_to 'Destroy', link, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
-</table>
+  </table>
 
 <br>
 
-<%= link_to 'New Link', new_link_path %>
+<%= link_to 'New Link', new_link_path, class: "btn btn-info" %>
+<%= link_to 'Login', login_path, class: "btn btn-default" if !user_logged_in? %>

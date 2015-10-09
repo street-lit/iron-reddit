@@ -1,19 +1,11 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Url:</strong>
-  <%= @link.url %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @link.user %>
-</p>
+<h4>
+  <strong>Url: </strong><%= @link.url %>
+</h4>
 
 <p>
   <strong>Num votes:</strong>
   <%= @link.num_votes %>
 </p>
 
-<%= link_to 'Edit', edit_link_path(@link) %> |
-<%= link_to 'Back', links_path %>
+<%= link_to 'Edit', edit_link_path(@link), class: "btn btn-success" %>
+<%= link_to 'Back', links_path, class: "btn btn-primary" %>

@@ -6,6 +6,7 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     @users = User.all
+    current_user
   end
 
   # GET /users/1
@@ -21,7 +22,7 @@ class UsersController < ApplicationController
   # GET /users/1/edit
   def edit
     unless current_user == @user
-      redirect_to :back, alert: "You are not authorized to edit this user"
+      redirect_to users_path, alert: "You are not authorized to edit this user"
     end
   end
 
@@ -61,6 +62,7 @@ class UsersController < ApplicationController
     if current_user != @user
       redirect_to :back, alert: "You are not authorized to delete this user"
     else
+      session[:logged_in_users_id] = nil
       @user.destroy
       respond_to do |format|
         format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
