@@ -1,5 +1,6 @@
 class VotesController < ApplicationController
   before_action :set_vote, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user, only: [:vote_up, :vote_down]
 
   # GET /votes
   # GET /votes.json
@@ -52,7 +53,6 @@ class VotesController < ApplicationController
   end
 
   def vote_up
-    authenticate_user
     @vote = Vote.find_or_create_by(user_id: current_user.id, link_id: params[:link_id])
     @link = Link.find(params[:link_id])
     if @vote.casted == true && @vote.neg_vote == true
@@ -74,7 +74,6 @@ class VotesController < ApplicationController
   end
 
   def vote_down
-    authenticate_user
     @vote = Vote.find_or_create_by(user_id: current_user.id, link_id: params[:link_id])
     @link = Link.find(params[:link_id])
     if @vote.casted == true && @vote.neg_vote == false
