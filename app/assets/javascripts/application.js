@@ -20,3 +20,4 @@ $( document ).ready(function() {
     $('tbody tr').first().toggleClass( "firstRow" )
   });
 });
+
