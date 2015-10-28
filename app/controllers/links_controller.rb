@@ -20,9 +20,7 @@ class LinksController < ApplicationController
 
   # GET /links/1/edit
   def edit
-    unless current_user.id == @link.user_id
-      redirect_to :back, alert: "You are not authorized to edit this link"
-    end
+
   end
 
   # POST /links

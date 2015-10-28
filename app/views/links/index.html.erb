@@ -17,8 +17,8 @@
         <td><%= link.user.name %></td>
         <td class="bigger"><%= link.num_votes %><%= link_to('Vote Up', vote_up_path(link), method: :post, class: "btn btn-info space space-left") %><%= link_to('Vote Down', vote_down_path(link), method: :post, class: "btn btn-warning space") %></td>
         <td><%= link_to 'Show', link %></td>
-        <td><%= link_to 'Edit', edit_link_path(link) %></td>
-        <td><%= link_to 'Destroy', link, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Edit', edit_link_path(link) unless @current_user == nil || @current_user.id != link.user_id %></td>
+        <td><%= link_to 'Destroy', link, method: :delete, data: { confirm: 'Are you sure?' } unless @current_user == nil || @current_user.id != link.user_id %></td>
       </tr>
     <% end %>
   </tbody>
