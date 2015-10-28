@@ -7,5 +7,5 @@
   <%= @link.num_votes %>
 </p>
 
-<%= link_to 'Edit', edit_link_path(@link), class: "btn btn-success" %>
+<%= link_to 'Edit', edit_link_path(@link), class: "btn btn-success" unless @current_user == nil || @current_user.id != @link.user_id %>
 <%= link_to 'Back', links_path, class: "btn btn-primary" %>
