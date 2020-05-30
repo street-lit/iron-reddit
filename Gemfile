@@ -48,7 +48,7 @@ end
 
 
 gem 'faker'
-gem 'kaminari'
+gem 'kaminari', '>= 1.2.1'
 gem 'bcrypt'
 group :production do
   gem 'puma'
